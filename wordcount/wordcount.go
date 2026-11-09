@@ -38,5 +38,14 @@ func Top(text string, n int) []Entry {
 }
 
 func isSeparator(r rune) bool {
-	return !unicode.IsLetter(r) && !unicode.IsDigit(r) && r != '\''
+	return !unicode.IsLetter(r) && !unicode.IsDigit(r)
+}
+
+func Longest(text string, n int) []string {
+	words := make([]string, 0)
+	for w := range Count(text) {
+		words = append(words, w)
+	}
+	sort.Slice(words, func(i, j int) bool { return len(words[i]) > len(words[j]) })
+	return words[:n]
 }
