@@ -23,6 +23,39 @@ func TestCount(t *testing.T) {
 	}
 }
 
+func TestLongest(t *testing.T) {
+	cases := []struct {
+		name string
+		text string
+		n    int
+		want int
+	}{
+		{"when text is empty, it should return nothing", "", 3, 0},
+		{"when n is zero, it should return nothing", "a bb", 0, 0},
+		{"when n is negative, it should return nothing", "a bb", -1, 0},
+		{"when n exceeds the vocabulary, it should return every word", "a bb", 10, 2},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			if got := len(Longest(tc.text, tc.n)); got != tc.want {
+				t.Errorf("len(Longest(%q, %d)) = %d, want %d", tc.text, tc.n, got, tc.want)
+			}
+		})
+	}
+
+	got := Longest("éé aaa bb aa", 4)
+	want := []string{"aaa", "aa", "bb", "éé"}
+	if len(got) != len(want) {
+		t.Fatalf("Longest returned %v, want %v", got, want)
+	}
+	for i := range want {
+		if got[i] != want[i] {
+			t.Errorf("Longest returned %v, want %v", got, want)
+			break
+		}
+	}
+}
+
 func TestTop(t *testing.T) {
 	cases := []struct {
 		name string
