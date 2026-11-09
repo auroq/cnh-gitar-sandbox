@@ -23,6 +23,37 @@ func TestCount(t *testing.T) {
 	}
 }
 
+func TestLongest(t *testing.T) {
+	cases := []struct {
+		name string
+		text string
+		n    int
+		want []string
+	}{
+		{"when text is empty, it should return nothing", "", 3, []string{}},
+		{"when n is zero, it should return nothing", "a bb", 0, []string{}},
+		{"when n is negative, it should return nothing", "a bb", -1, []string{}},
+		{"when n exceeds the vocabulary, it should return every word longest first", "a bb", 10, []string{"bb", "a"}},
+		{"when n is smaller than the vocabulary, it should return the n longest words", "a bbb cc", 2, []string{"bbb", "cc"}},
+		{"when words tie on length, it should order them alphabetically", "aaa aa bb", 3, []string{"aaa", "aa", "bb"}},
+		{"when words are repeated, it should return each word once", "aaa aaa bb", 5, []string{"aaa", "bb"}},
+		{"when words have multibyte runes, it should measure length in runes", "éé aaa bb aa", 4, []string{"aaa", "aa", "bb", "éé"}},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := Longest(tc.text, tc.n)
+			if len(got) != len(tc.want) {
+				t.Fatalf("Longest(%q, %d) = %v, want %v", tc.text, tc.n, got, tc.want)
+			}
+			for i := range tc.want {
+				if got[i] != tc.want[i] {
+					t.Fatalf("Longest(%q, %d) = %v, want %v", tc.text, tc.n, got, tc.want)
+				}
+			}
+		})
+	}
+}
+
 func TestTop(t *testing.T) {
 	cases := []struct {
 		name string
