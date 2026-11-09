@@ -38,7 +38,7 @@ func Top(text string, n int) []Entry {
 }
 
 func isSeparator(r rune) bool {
-	return !unicode.IsLetter(r) && !unicode.IsDigit(r)
+	return !unicode.IsLetter(r) && !unicode.IsDigit(r) && r != '\''
 }
 
 func Longest(text string, n int) []string {
